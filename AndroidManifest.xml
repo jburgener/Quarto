@@ -26,6 +26,18 @@
             android:name="edu.umich.quarto.MainActivity"
             android:label="@string/title_activity_main" >
         </activity>
+        <activity
+            android:name="edu.umich.quarto.TutorialFirst"
+            android:label="@string/title_activity_tutorial_first" >
+        </activity>
+        <activity
+            android:name="edu.umich.quarto.TutorialSecond"
+            android:label="@string/title_activity_tutorial_second" >
+        </activity>
+        <activity
+            android:name="edu.umich.quarto.TutorialThird"
+            android:label="@string/title_activity_tutorial_third" >
+        </activity>
     </application>
 
 </manifest>

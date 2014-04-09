@@ -7,5 +7,8 @@
     <string name="quartoText"></string>
     <string name="quarto">Quarto!</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_tutorial_first">TutorialFirst</string>
+    <string name="title_activity_tutorial_second">TutorialSecond</string>
+    <string name="title_activity_tutorial_third">TutorialThird</string>
 
 </resources>
