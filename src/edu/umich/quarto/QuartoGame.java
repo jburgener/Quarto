@@ -14,6 +14,7 @@ public class QuartoGame extends Activity {
 	BoardSquare[][] board = new BoardSquare[4][4];
 	BoardSquare[][] selector = new BoardSquare[8][2];
 	BoardSquare selectedSquare = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,6 +51,7 @@ public class QuartoGame extends Activity {
 							if(selectedSquare != null) selectedSquare.setSelected(false);
 							bs.setSelected(true);
 							selectedSquare = bs;
+							aiTurn();
 						}
 					}
 				});
@@ -72,6 +74,30 @@ public class QuartoGame extends Activity {
 		});
 	}
 	
+	protected void aiTurn()
+	{
+		for (int i = 0; i < 16; i++)
+		{
+			if (!board[(int)i/4][i%4].hasPiece())
+			{
+				placePiece(board[(int)i/4][i%4]);
+				if (isWin())
+					Toast.makeText(getApplicationContext(), "Quarto! AI wins!", Toast.LENGTH_LONG).show();
+				
+				for (int j = 0; j < 16; j++)
+				{
+					BoardSquare bs = selector[(int)i%8][i/8];
+					if(bs.hasPiece()){
+						if(selectedSquare != null) selectedSquare.setSelected(false);
+						bs.setSelected(true);
+						selectedSquare = bs;
+						return;
+					}
+				}
+			}
+		}
+		return;
+	}
 	protected boolean isWin(){
 		int diagMask = board[0][0].hasPiece() ? ~0 : 0;
         int rDiagMask = board[3][0].hasPiece() ? ~0 : 0;
