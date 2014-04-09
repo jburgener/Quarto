@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="9dp"
+    tools:context=".QuartoGame" >
+
+    <GridLayout
+        android:id="@+id/QuartoBoard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="false" >
+
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/PieceSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/QuartoBoard"
+        android:layout_alignLeft="@+id/QuartoBoard"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@id/QuartoBoard"
+        android:layout_marginTop="54dp" >
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/QuartoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/quarto" />
+
+</RelativeLayout>
