@@ -6,5 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="quartoText"></string>
     <string name="quarto">Quarto!</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
