@@ -3,12 +3,15 @@ package edu.umich.quarto;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.os.Build;
 
 public class TutorialFirst extends Activity {
@@ -22,6 +25,15 @@ public class TutorialFirst extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		View toStartBtn = findViewById(R.id.button1);
+		toStartBtn.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(TutorialFirst.this, TutorialSecond.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override

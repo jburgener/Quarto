@@ -16,7 +16,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal|fill"
-            android:text="&lt; Back to Start                                       " />
+            android:text="Next >" />
 
     </TableRow>
 

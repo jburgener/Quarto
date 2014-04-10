@@ -32,7 +32,7 @@
         android:minWidth="250dp" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/backToStart1"
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:layout_gravity="center"
@@ -50,7 +50,7 @@
         android:minWidth="250dp" >
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/toTutorial2"
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:height="75dp"
