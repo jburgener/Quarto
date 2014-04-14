@@ -6,38 +6,46 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="9dp"
+    android:background="#495a61"
     tools:context=".QuartoGame" >
-
-    <GridLayout
-        android:id="@+id/QuartoBoard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="false" >
-
-    </GridLayout>
 
     <GridLayout
         android:id="@+id/PieceSelector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/QuartoBoard"
         android:layout_alignLeft="@+id/QuartoBoard"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@id/QuartoBoard"
-        android:layout_marginTop="54dp" >
+        android:layout_marginTop="10dp" >
+    </GridLayout>
+    
+    <TextView
+        android:id="@+id/prompt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/PieceSelector"
+        android:layout_alignRight="@+id/PieceSelector"
+        android:layout_below="@+id/PieceSelector"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="Pick your opponent&apos;s piece!"
+        android:textAppearance="?android:attr/textAppearanceLarge" >
+	</TextView>
 
+    <GridLayout
+        android:id="@+id/QuartoBoard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prompt"
+        android:layout_centerHorizontal="true" >
     </GridLayout>
 
     <Button
         android:id="@+id/QuartoButton"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
         android:text="@string/quarto" />
-
 </RelativeLayout>

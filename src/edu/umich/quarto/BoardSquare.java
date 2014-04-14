@@ -8,20 +8,26 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.View;
 
-public class BoardSquare extends View{
+public class BoardSquare extends View {
 	QuartoPiece piece = null;
-	Paint borderPaint = new Paint();
-	Paint piecePaint = new Paint();
-	int widthScale;
+	private Paint borderPaint = new Paint();
+	private Paint piecePaint = new Paint();
+	private boolean boardPiece;
+	private int widthScale;
 	
 	public BoardSquare(Context context){
-		this(context, 4);
+		this(context, 4, false);
 	}
-	public BoardSquare(Context context, int widthScale) {
+	public BoardSquare(Context context, int widthScale, boolean board) {
 		super(context);
-		borderPaint.setColor(Color.GRAY);
+		borderPaint.setColor(Color.argb(255, 243, 170, 125));
 		borderPaint.setStyle(Paint.Style.STROKE);
-		piecePaint.setStrokeWidth(5);
+		borderPaint.setStrokeWidth(10);
+		if (board)
+			piecePaint.setStrokeWidth(20);
+		else
+			piecePaint.setStrokeWidth(4);
+		boardPiece = board;
 		this.widthScale = widthScale;
 	}
 	
@@ -45,9 +51,6 @@ public class BoardSquare extends View{
 		if(selected){
 			borderPaint.setColor(Color.BLUE);
 			borderPaint.setStrokeWidth(4);
-		}else{
-			borderPaint.setColor(Color.GRAY);
-			borderPaint.setStrokeWidth(1);
 		}
 		invalidate();
 	}
@@ -58,22 +61,18 @@ public class BoardSquare extends View{
 	   int parentDimension = Math.min(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.getSize(heightMeasureSpec));
 	   this.setMeasuredDimension(parentDimension/widthScale, parentDimension/widthScale);
 	}
-
 	
 	@SuppressLint("DrawAllocation")
 	@Override
 	public void onDraw(Canvas c){
-		c.drawColor(Color.BLACK);
-		c.drawRect(4, 4, getWidth()-5, getHeight()-5, borderPaint);
+		c.drawColor(Color.argb(255, 73, 90, 97)); // background
 		
-		if(piece == null) return;
-		int width = getWidth();
-		int height = getHeight();
+		if (boardPiece) {	// draw circles on the board pieces
+			float cx = getWidth() / 2, cy = getHeight() / 2, radius = cx - 4;
+			c.drawCircle(cx, cy, radius, borderPaint);
+		}
 		
-		int renderWidth = getWidth();
-        int renderHeight = getHeight();
-        int left;
-        int top;
+		if (piece == null) return;
         
 		if(piece.hasAttribute(QuartoPiece.Attribute.color)){
 			piecePaint.setColor(Color.RED);
@@ -81,24 +80,40 @@ public class BoardSquare extends View{
 			piecePaint.setColor(Color.BLUE);
 		}
 		
-		if(piece.hasAttribute(QuartoPiece.Attribute.type)){
-            renderWidth *= .4;
-            renderHeight *= .4;
-            left = (int)(width*.3);
-            top = (int)(height*.3);
-        }else{
-            renderWidth *= .75;
-            renderHeight *= .75;
-            left = width/8;
-            top = height/8;
-        }
+		float width = getWidth(), height = getHeight();
+		float renderWidth = getWidth(), renderHeight = getHeight(), left, top;
+		if (boardPiece){
+			if(piece.hasAttribute(QuartoPiece.Attribute.type)) {		// what in the world does this mean?
+				left = (float) (width * .3);
+				top = (float) (height * .3);
+	            renderWidth *= .4;
+	            renderHeight *= .4;
+	        } else {
+	        	left = (int)(width * .225);
+				top = (int)(height * .225);
+	            renderWidth *= .56;
+	            renderHeight *= .56;
+	        }
+		} else {
+			if(piece.hasAttribute(QuartoPiece.Attribute.type)){		// what in the world does this mean?
+	            renderWidth *= .4;
+	            renderHeight *= .4;
+	            left = (int)(width * .3);
+	            top = (int)(height * .3);
+	        }else{
+	            renderWidth *= .75;
+	            renderHeight *= .75;
+	            left = width/8;
+	            top = height/8;
+	        }
+		}
 		
 		if(piece.hasAttribute(QuartoPiece.Attribute.height)){
 			piecePaint.setStyle(Paint.Style.FILL);
         }else{
             piecePaint.setStyle(Paint.Style.STROKE);
         }
-		RectF rect = new RectF(left,  top, left+renderWidth, top+renderHeight);
+		RectF rect = new RectF(left, top, left+renderWidth, top+renderHeight);
 		if(piece.hasAttribute(QuartoPiece.Attribute.shape)){
 			c.drawRect(rect, piecePaint);
         } else{

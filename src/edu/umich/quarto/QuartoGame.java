@@ -2,11 +2,13 @@ package edu.umich.quarto;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class QuartoGame extends Activity {
@@ -15,43 +17,59 @@ public class QuartoGame extends Activity {
 	BoardSquare[][] selector = new BoardSquare[8][2];
 	BoardSquare selectedSquare = null;
 	
+	private TextView prompt;
+	private boolean placePiece = false;
+	private final String placePieceString = "Place the chosen tile!";
+	private final String pickPieceString = "Pick your opponent's piece!";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_quarto_game);
+		prompt = (TextView)findViewById(R.id.prompt);
+		
+		// quarto board grid
 		GridLayout grid = (GridLayout)findViewById(R.id.QuartoBoard);
 		grid.setRowCount(4);
 		grid.setColumnCount(4);
 		for(int x = 0; x < 4; x++){
 			for(int y = 0; y < 4; y++){
-				BoardSquare square = new BoardSquare(this, 4);
+				BoardSquare square = new BoardSquare(this, 4, true);
 				board[x][y] = square;
 				square.setOnClickListener(new OnClickListener(){
 					@Override
 					public void onClick(View v) {
-						placePiece((BoardSquare)v);
+						if (placePiece){
+							placePiece((BoardSquare)v);
+							swapTurn();
+						}
 					}
 				});
 				grid.addView(square);
 			}
 		}
 		
+		// grid of pieces to choose
 		grid = (GridLayout)findViewById(R.id.PieceSelector);
 		grid.setRowCount(2);
 		grid.setColumnCount(8);
 		for(int x = 0; x < 8; x++){
 			for(int y = 0; y < 2; y++){
-				BoardSquare square = new BoardSquare(this, 8);
+				BoardSquare square = new BoardSquare(this, 8, false);
 				square.setClickable(true);
 				square.setOnClickListener(new OnClickListener(){
 					@Override
 					public void onClick(View v) {
+						if (placePiece)
+							return;
+						
 						BoardSquare bs = (BoardSquare)v;
 						if(bs.hasPiece()){
 							if(selectedSquare != null) selectedSquare.setSelected(false);
 							bs.setSelected(true);
 							selectedSquare = bs;
 							aiTurn();
+							swapTurn();
 						}
 					}
 				});
@@ -74,18 +92,14 @@ public class QuartoGame extends Activity {
 		});
 	}
 	
-	protected void aiTurn()
-	{
-		for (int i = 0; i < 16; i++)
-		{
-			if (!board[(int)i/4][i%4].hasPiece())
-			{
+	protected void aiTurn(){
+		for (int i = 0; i < 16; i++){
+			if (!board[(int)i/4][i%4].hasPiece()){
 				placePiece(board[(int)i/4][i%4]);
 				if (isWin())
 					Toast.makeText(getApplicationContext(), "Quarto! AI wins!", Toast.LENGTH_LONG).show();
 				
-				for (int j = 0; j < 16; j++)
-				{
+				for (int j = 0; j < 16; j++){
 					BoardSquare bs = selector[(int)i%8][i/8];
 					if(bs.hasPiece()){
 						if(selectedSquare != null) selectedSquare.setSelected(false);
@@ -96,6 +110,7 @@ public class QuartoGame extends Activity {
 				}
 			}
 		}
+		
 		return;
 	}
 	protected boolean isWin(){
@@ -134,6 +149,16 @@ public class QuartoGame extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.quarto_game, menu);
 		return true;
+	}
+	
+	private void swapTurn(){
+		Log.d("Stupid Debugging", "PlacePiece is: " + (placePiece ? "true" : "false"));
+		placePiece = !placePiece;
+		if (placePiece) {			
+			prompt.setText(placePieceString);
+		} else {
+			prompt.setText(pickPieceString);
+		}
 	}
 
 }
