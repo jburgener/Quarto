@@ -1,6 +1,6 @@
 package edu.umich.quarto;
 
-import com.scringo.Scringo;
+//import com.scringo.Scringo;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -17,16 +17,16 @@ import android.os.Build;
 
 public class MainActivity extends Activity {
 
-	private Scringo scringo;
+//	private Scringo scringo;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		Scringo.setAppId("kyaGXy5p7TYEf48ZKhZZFIgQKErmOP3v");
-		scringo = new Scringo(this);
-		scringo.init();
-		scringo.addSidebar();
-		Scringo.setDebugMode(true);
+//		Scringo.setAppId("kyaGXy5p7TYEf48ZKhZZFIgQKErmOP3v");
+//		scringo = new Scringo(this);
+//		scringo.init();
+//		scringo.addSidebar();
+//		Scringo.setDebugMode(true);
 		
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
@@ -64,13 +64,13 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		scringo.onStart();
+//		scringo.onStart();
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		scringo.onStop();
+//		scringo.onStop();
 	}
 
 	@Override
