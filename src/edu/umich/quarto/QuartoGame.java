@@ -11,16 +11,35 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class QuartoGame extends Activity {
 
+	public enum PLAYER
+	{	
+		AI{
+			@Override
+			public String str() { return "AI"; }
+		},
+		PLAYER_1{
+			@Override
+			public String str() { return "Player one"; }
+		},
+		PLAYER_2{
+			@Override
+			public String str() { return "Player two"; }
+		};
+
+		public abstract String str();
+	};
+	
 	BoardSquare[][] board = new BoardSquare[4][4];
 	BoardSquare[][] selector = new BoardSquare[8][2];
 	BoardSquare selectedSquare = null;
 	
 	private TextView prompt;
 	private boolean placePiece = false;
-	private final String placePieceString = "Place the chosen tile!";
-	private final String pickPieceString = "Pick your opponent's piece!";
+	private boolean aiOn = false;
+	PLAYER currentPlayer = PLAYER.PLAYER_1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +87,15 @@ public class QuartoGame extends Activity {
 							if(selectedSquare != null) selectedSquare.setSelected(false);
 							bs.setSelected(true);
 							selectedSquare = bs;
-							aiTurn();
+							if (aiOn)
+							{
+								currentPlayer = PLAYER.AI;
+								aiTurn();
+							}
+							else
+							{
+								currentPlayer = (currentPlayer == PLAYER.PLAYER_1)? PLAYER.PLAYER_2 : PLAYER.PLAYER_2;
+							}
 							swapTurn();
 						}
 					}
@@ -83,13 +110,19 @@ public class QuartoGame extends Activity {
 		quartoButton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				if(isWin()){
-					Toast.makeText(getApplicationContext(), "Quarto! You Win!", Toast.LENGTH_LONG).show();
-				}else{
-					Toast.makeText(getApplicationContext(), "NO!!! You're Dumb!", Toast.LENGTH_LONG).show();
-				}
+				announceWin();
 			}
 		});
+	}
+	
+	private void announceWin()
+	{
+		if(isWin()){
+			String winnerText = "Quarto! " + currentPlayer.str() + " wins!";
+			Toast.makeText(getApplicationContext(), winnerText, Toast.LENGTH_LONG).show();
+		}else{
+			Toast.makeText(getApplicationContext(), "No Quarto! Try again!", Toast.LENGTH_LONG).show();
+		}
 	}
 	
 	protected void aiTurn(){
@@ -97,7 +130,7 @@ public class QuartoGame extends Activity {
 			if (!board[(int)i/4][i%4].hasPiece()){
 				placePiece(board[(int)i/4][i%4]);
 				if (isWin())
-					Toast.makeText(getApplicationContext(), "Quarto! AI wins!", Toast.LENGTH_LONG).show();
+					announceWin();
 				
 				for (int j = 0; j < 16; j++){
 					BoardSquare bs = selector[(int)i%8][i/8];
@@ -105,6 +138,7 @@ public class QuartoGame extends Activity {
 						if(selectedSquare != null) selectedSquare.setSelected(false);
 						bs.setSelected(true);
 						selectedSquare = bs;
+						currentPlayer = PLAYER.PLAYER_1;
 						return;
 					}
 				}
@@ -155,8 +189,10 @@ public class QuartoGame extends Activity {
 		Log.d("Stupid Debugging", "PlacePiece is: " + (placePiece ? "true" : "false"));
 		placePiece = !placePiece;
 		if (placePiece) {			
+			String placePieceString = currentPlayer.str() + ", place the chosen piece!";
 			prompt.setText(placePieceString);
 		} else {
+			String pickPieceString = currentPlayer.str() + ", pick your opponent's piece!";
 			prompt.setText(pickPieceString);
 		}
 	}
