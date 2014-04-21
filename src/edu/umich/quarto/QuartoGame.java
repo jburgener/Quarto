@@ -47,6 +47,10 @@ public class QuartoGame extends Activity {
 			@Override
 			public void onClick(View v) {
 				clearBoard();
+				GridLayout selectorGrid = (GridLayout)findViewById(R.id.PieceSelector);
+				selectorGrid.removeAllViews();
+				GridLayout quartoBoard = (GridLayout)findViewById(R.id.QuartoBoard);
+				quartoBoard.removeAllViews();
 				initSelectors();
 				initBoard();
 				initButton();
@@ -57,6 +61,7 @@ public class QuartoGame extends Activity {
 			public void onClick(View v) {
 				if(isWin()){
 					userWinner = true;
+					endGame();
 				} else {
 					Toast.makeText(getApplicationContext(), "NO!!! You're Dumb!", Toast.LENGTH_LONG).show();
 				}
@@ -64,6 +69,7 @@ public class QuartoGame extends Activity {
 		};
 		
 		button = (Button)findViewById(R.id.QuartoButton);
+		button.setText("Quarto!");
 		button.setOnClickListener(quartoAction);
 	}
 
@@ -196,7 +202,16 @@ public class QuartoGame extends Activity {
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < 4; j++)
+			{
 				board[i][j].clearAttribute();
+			}
+		}	
+				
+		for (int i = 0; i < 8; i++){
+			for (int j = 0; j < 2; j++){
+				selector[i][j].setSelected(false);
+				selector[i][j].clearAttribute();
+			}
 		}
 	}
 
