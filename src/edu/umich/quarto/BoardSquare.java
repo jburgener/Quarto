@@ -14,19 +14,25 @@ public class BoardSquare extends View {
 	private Paint piecePaint = new Paint();
 	private boolean boardPiece;
 	private int widthScale;
+	private boolean selected = false;
 	
 	public BoardSquare(Context context){
 		this(context, 4, false);
 	}
 	public BoardSquare(Context context, int widthScale, boolean board) {
 		super(context);
-		borderPaint.setColor(Color.argb(255, 243, 170, 125));
+		
 		borderPaint.setStyle(Paint.Style.STROKE);
-		borderPaint.setStrokeWidth(10);
-		if (board)
+		
+		if (board){
 			piecePaint.setStrokeWidth(20);
-		else
+			borderPaint.setStrokeWidth(10);
+			borderPaint.setColor(Color.argb(255, 243, 170, 125));
+		}else{
+			borderPaint.setStrokeWidth(4);
+			borderPaint.setColor(Color.GREEN);
 			piecePaint.setStrokeWidth(4);
+		}
 		boardPiece = board;
 		this.widthScale = widthScale;
 	}
@@ -48,10 +54,7 @@ public class BoardSquare extends View {
 		return piece == null ? -1 : piece.getAttributes();
 	}
 	public void setSelected(boolean selected){
-		if(selected){
-			borderPaint.setColor(Color.BLUE);
-			borderPaint.setStrokeWidth(4);
-		}
+		this.selected = selected;
 		invalidate();
 	}
 	
@@ -70,11 +73,13 @@ public class BoardSquare extends View {
 		if (boardPiece) {	// draw circles on the board pieces
 			float cx = getWidth() / 2, cy = getHeight() / 2, radius = cx - 4;
 			c.drawCircle(cx, cy, radius, borderPaint);
+		}else if(selected){
+			c.drawRect(0, 0,getWidth(), getHeight(), borderPaint);
 		}
 		
 		if (piece == null) return;
         
-		if(piece.hasAttribute(QuartoPiece.Attribute.color)){
+		if(piece.hasAttribute(QuartoPiece.Attribute.COLOR)){
 			piecePaint.setColor(Color.RED);
 		}else{
 			piecePaint.setColor(Color.BLUE);
@@ -83,7 +88,7 @@ public class BoardSquare extends View {
 		float width = getWidth(), height = getHeight();
 		float renderWidth = getWidth(), renderHeight = getHeight(), left, top;
 		if (boardPiece){
-			if(piece.hasAttribute(QuartoPiece.Attribute.type)) {		// what in the world does this mean?
+			if(piece.hasAttribute(QuartoPiece.Attribute.SIZE)) {
 				left = (float) (width * .3);
 				top = (float) (height * .3);
 	            renderWidth *= .4;
@@ -95,7 +100,7 @@ public class BoardSquare extends View {
 	            renderHeight *= .56;
 	        }
 		} else {
-			if(piece.hasAttribute(QuartoPiece.Attribute.type)){		// what in the world does this mean?
+			if(piece.hasAttribute(QuartoPiece.Attribute.SIZE)){
 	            renderWidth *= .4;
 	            renderHeight *= .4;
 	            left = (int)(width * .3);
@@ -108,13 +113,13 @@ public class BoardSquare extends View {
 	        }
 		}
 		
-		if(piece.hasAttribute(QuartoPiece.Attribute.height)){
+		if(piece.hasAttribute(QuartoPiece.Attribute.HEIGHT)){
 			piecePaint.setStyle(Paint.Style.FILL);
         }else{
             piecePaint.setStyle(Paint.Style.STROKE);
         }
 		RectF rect = new RectF(left, top, left+renderWidth, top+renderHeight);
-		if(piece.hasAttribute(QuartoPiece.Attribute.shape)){
+		if(piece.hasAttribute(QuartoPiece.Attribute.SHAPE)){
 			c.drawRect(rect, piecePaint);
         } else{
         	c.drawOval(rect, piecePaint);

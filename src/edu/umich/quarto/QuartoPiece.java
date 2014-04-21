@@ -20,10 +20,10 @@ public class QuartoPiece {
     }
     
     public static enum Attribute{
-    	shape,
-    	type,
-    	height,
-    	color;
+    	SHAPE,
+    	SIZE,
+    	HEIGHT,
+    	COLOR;
     	public int mask(){
     		return 1<<this.ordinal();
     	}
