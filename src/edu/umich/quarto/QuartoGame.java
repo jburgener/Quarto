@@ -85,6 +85,7 @@ public class QuartoGame extends Activity {
 			public void onClick(View v) {
 				if(isWin()){
 					Toast.makeText(getApplicationContext(), "Quarto! You Win!", Toast.LENGTH_LONG).show();
+					clearBoard();
 				}else{
 					Toast.makeText(getApplicationContext(), "NO!!! You're Dumb!", Toast.LENGTH_LONG).show();
 				}
@@ -96,9 +97,10 @@ public class QuartoGame extends Activity {
 		for (int i = 0; i < 16; i++){
 			if (!board[(int)i/4][i%4].hasPiece()){
 				placePiece(board[(int)i/4][i%4]);
-				if (isWin())
+				if (isWin()) {
 					Toast.makeText(getApplicationContext(), "Quarto! AI wins!", Toast.LENGTH_LONG).show();
-				
+					clearBoard();
+				}
 				for (int j = 0; j < 16; j++){
 					BoardSquare bs = selector[(int)i%8][i/8];
 					if(bs.hasPiece()){
@@ -142,6 +144,16 @@ public class QuartoGame extends Activity {
 		selectedSquare.setSelected(false);
 		selectedSquare.clearAttribute();
 		selectedSquare = null;
+	}
+	
+	/* CLear the board when the game is over */
+	protected void clearBoard()
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+				board[i][j].clearAttribute();
+		}
 	}
 
 	@Override
