@@ -20,7 +20,7 @@
             android:maxHeight="200dp"
             android:maxWidth="200dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/Q" />
+            android:src="@drawable/q" />
 
     </TableRow>
 
