@@ -1,5 +1,8 @@
 package edu.umich.quarto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -126,25 +129,27 @@ public class QuartoGame extends Activity {
 	}
 	
 	protected void aiTurn(){
-		for (int i = 0; i < 16; i++){
-			if (!board[(int)i/4][i%4].hasPiece()){
-				placePiece(board[(int)i/4][i%4]);
-				if (isWin())
-					announceWin();
+		List<Integer> freeSpots = new ArrayList<Integer>();
+		for (int i = 0; i < 16; i++)
+			if (!board[(int)i/4][i%4].hasPiece())
+				freeSpots.add(i);
 				
-				for (int j = 0; j < 16; j++){
-					BoardSquare bs = selector[(int)i%8][i/8];
-					if(bs.hasPiece()){
-						if(selectedSquare != null) selectedSquare.setSelected(false);
-						bs.setSelected(true);
-						selectedSquare = bs;
-						currentPlayer = PLAYER.PLAYER_1;
-						return;
-					}
-				}
+		int randi = (int) Math.rint(Math.random() * (freeSpots.size() - 1));
+		placePiece(board[(int)randi/4][randi%4]);
+		if (isWin())
+			announceWin();
+		
+		for (int j = 0; j < 16; j++){
+			BoardSquare bs = selector[(int)j%8][j/8];
+			if(bs.hasPiece()){
+				if(selectedSquare != null) selectedSquare.setSelected(false);
+				bs.setSelected(true);
+				selectedSquare = bs;
+				currentPlayer = PLAYER.PLAYER_1;
+				break;
 			}
 		}
-		
+
 		return;
 	}
 	protected boolean isWin(){
