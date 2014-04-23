@@ -3,6 +3,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context="edu.umich.quarto.MainActivity"
     tools:ignore="MergeRootFrame" >
 
@@ -12,15 +13,6 @@
         android:layout_height="250dp"
         android:gravity="center_horizontal"
         android:minHeight="200dp" >
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:maxHeight="200dp"
-            android:maxWidth="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/q" />
 
     </TableRow>
 
@@ -37,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:layout_gravity="center"
-            android:text="     Play with AI     " />
+            android:text="     Play with AI     "
+            android:textColor="#ffffff" />
 
     </TableRow>
 
@@ -55,7 +48,8 @@
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:height="75dp"
-            android:text=" Play with Friend  " />
+            android:text=" Play with Friend  "
+            android:textColor="#ffffff" />
 
     </TableRow>
 
@@ -72,7 +66,8 @@
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:height="75dp"
-            android:text="        Tutorial         " />
+            android:text="        Tutorial         "
+            android:textColor="#ffffff" />
 
     </TableRow>
 
